@@ -7,7 +7,7 @@ const returnModel = require('../models/responseModel');
 let response = new returnModel.responseModel()
 exports.getStaffList = async(licanceId) => {
     try {
-        let staffData = await socketClient.getData("SELECT Kimlik, SUBE_KODU, PERSONEL_KODU, PERSONEL_ADI, AKTIF, ISE_GIRIS, ISTEN_AYRILIS, UNVAN, (SELECT GRUP_ADI FROM TBL_PER_GRUP WHERE kimlik = GRUP_ID) AS GRUP_ADI FROM TBL_PER",licanceId,"TBL_PER")
+        let staffData = await socketClient.getData("SELECT Kimlik, (SELECT SUBE_KODU+' - '+SUBE_ADI FROM TBL_SUBE WHERE TBL_SUBE.SUBE_KODU = TBL_PER.SUBE_KODU) AS SUBE_KODU, PERSONEL_KODU, PERSONEL_ADI, AKTIF, ISE_GIRIS, ISTEN_AYRILIS, UNVAN, (SELECT GRUP_ADI FROM TBL_PER_GRUP WHERE kimlik = GRUP_ID) AS GRUP_ADI FROM TBL_PER",licanceId,"TBL_PER")
         return staffData
     } catch (error) {
         return error
