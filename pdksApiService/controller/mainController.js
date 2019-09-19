@@ -14,6 +14,18 @@ exports.getStaffList = async(licanceId) => {
     }
 
 }
+exports.updateStaff = async(licanceId,model) => {   
+    try {
+            Cmd =  "UPDATE TBL_PER SET ISE_GIRIS = '"+ model.ISE_GIRIS +"' , ISTEN_AYRILIS = '"+ model.A +"'  WHERE kimlik = "+ model.kimlik 
+        let insertResult = await socketEvent.Event(Cmd,licanceId,"staff")
+        response.message="Ok"
+        response.status="True"
+        response.data=""       
+        return response
+    } catch (error) {
+        return error
+    }
+}
 
 //----------------------------------------------------------------------
 

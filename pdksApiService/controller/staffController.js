@@ -16,16 +16,16 @@ exports.getStaffList = async(req,res) => {
 
 
 
-// exports.saveStaff = async(req,res) => {
-//     try {
-//         let myModel = new staffModel.StaffModel()
-//         myModel.ARAC = "TEST"
-//         let result = await sqlMain.saveStaff(2892,myModel)
-//         res.send("OK")
-//     } catch (err) {
+exports.updateStaff = async(req,res) => {
+    try {
+        let staffModel = req.body.staffModel
+        let licanceNo = req.body.licanceNo
+        let result = await  sqlMain.updateStaff(licanceNo,staffModel)
+        res.send("OK")
+    } catch (err) {
         
-//     }
-// }
+    }
+}
 
 
 
