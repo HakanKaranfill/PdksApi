@@ -1,6 +1,7 @@
 const socketClient = require('../tools/socketClient');
 const socketEvent = require('../tools/socketEvent');
-const staffModel = require('../models/staffModel');
+// const staffModel = require('../models/staffModel');
+// const shiftModel = require('../models/shiftModel');
 const returnModel = require('../models/responseModel');
 
 //----------------------------------------------------------------------
@@ -27,7 +28,6 @@ exports.getPermissionList = async(licanceId) => {
 
 }
 exports.deletePermission = async(licanceId,model) => {
-    debugger
     try {
         let permissionData = await socketEvent.Event("DELETE FROM TBL_PER_VARDIYA_IZIN WHERE kimlik='"+model.kimlik+"'",licanceId,"IZINDelete")
         response.message="Ok"
@@ -59,11 +59,11 @@ exports.savePermissions = async(licanceId,model) => {
     }
 }
 
-//----------------------------------------------------------------------
+//---------------------------------------------------------------------- SHIFT
 
 exports.getShiftList = async(licanceId) => {
     try {
-        let shiftData = await socketClient.getData("SELECT kimlik, ADI, A_ZAMAN, K_ZAMAN FROM TBL_PER_VARDIYA_IZIN WHERE UCRET IS NULL",licanceId,"VARDIYA")
+        let shiftData = await socketClient.getData("SELECT kimlik, ADI, A_ZAMAN, K_ZAMAN FROM TBL_PER_VARDIYA_IZIN WHERE A_ZAMAN IS NOT NULL",licanceId,"VARDIYA")
         return shiftData
     } catch (error) {
         return error
@@ -71,30 +71,87 @@ exports.getShiftList = async(licanceId) => {
 
 }
 
-//-----work group-----------------------------------------------------------------
-exports.getWorkGroupList = async(licanceId) => {
+exports.deleteShift = async(licanceId,model) => {
     try {
-        let workGroupData = await socketClient.getData("SELECT kimlik,GRUP_ADI FROM TBL_PER_GRUP",licanceId,"GRUP_LISTE")
-        return workGroupData
+        let ShifData = await socketEvent.Event("DELETE FROM TBL_PER_VARDIYA_IZIN WHERE kimlik='"+model.kimlik+"'",licanceId,"VARDIYA_DELETE")
+        response.message="Ok"
+        response.status="True"
+        response.data=""       
+        return response
     } catch (error) {
         return error
     }
 
 }
 
-exports.saveWorkGroup = async(licanceId,model) => {
+exports.putShift = async(licanceId,model) => {   
     try {
-        let insertQuery = "INSERT INTO TBL_PER_GRUP (GRUP_ADI) VALUES('" + model.GRUP_ADI +"')"
-        let insertResult = await socketClient.getData(insertQuery,licanceId)
-    } catch (err) {
-        
+        if (model.kimlik==undefined) {
+            
+            Cmd =  "INSERT INTO TBL_PER_VARDIYA_IZIN (ADI,A_ZAMAN,K_ZAMAN) VALUES" + "('" + model.shiftName +"'" + ",'" + model.startTime +"'" + ",'" + model.stopTime+"' )" 
+        }
+        else{
+            Cmd =  "UPDATE TBL_PER_VARDIYA_IZIN SET ADI = '"+ model.ADI +"' , A_ZAMAN = '"+ model.A_ZAMAN +"' , K_ZAMAN = '"+ model.K_ZAMAN +"'  WHERE kimlik = "+ model.kimlik 
+        }  
+        let insertResult = await socketEvent.Event(Cmd,licanceId,"permission")
+        response.message="Ok"
+        response.status="True"
+        response.data=""       
+        return response
+    } catch (error) {
+        return error
     }
 }
-//--------------------------------------------------------------------------------
 
-exports.getWorkPlanForGroupList = async(licanceId) => {
+//---------------------------------------------------------------------- SHIFT
+
+exports.getGroupList = async(licanceId) => {
     try {
-        let WorkPlanForGroupData = await socketClient.getData("SELECT kimlik, TARIH, GUN_ADI, (SELECT ADI FROM TBL_PER_VARDIYA_IZIN where kimlik=VARDIYA_IZIN_ID) AS PLAN_TIPI FROM TBL_PER_CALISMA_PLANI WHERE ISLEM_ID = 1",licanceId,"GRUP_CALISMA_PLANI")
+        let groupData = await socketClient.getData("SELECT kimlik,GRUP_ADI FROM TBL_PER_GRUP",licanceId,"GRUP_LISTE")
+        return groupData
+    } catch (error) {
+        return error
+    }
+
+}
+
+exports.deleteGroup = async(licanceId,model) => {
+    try {
+        let groupData = await socketEvent.Event("DELETE FROM TBL_PER_GRUP WHERE kimlik ='"+model.kimlik+"'",licanceId,"GRUP_LISTE_DELETE")
+        response.message="Ok"
+        response.status="True"
+        response.data=""       
+        return response
+    } catch (error) {
+        return error
+    }
+
+}
+
+exports.putGroup = async(licanceId,model) => {   
+    try {
+        if (model.kimlik==undefined) {
+            
+            Cmd =  "INSERT INTO TBL_PER_GRUP (GRUP_ADI) VALUES('" + model.groupName +"')"
+        }
+        else{
+            Cmd =  "UPDATE TBL_PER_GRUP SET GRUP_ADI = '"+ model.GRUP_ADI +"'  WHERE kimlik = "+ model.kimlik 
+        }  
+        let insertResult = await socketEvent.Event(Cmd,licanceId,"group")
+        response.message="Ok"
+        response.status="True"
+        response.data=""       
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
+//----------------------------------------------------------------------
+
+exports.getWorkPlanForGroupList = async(licanceId,kimlik) => {
+    try {
+        let WorkPlanForGroupData = await socketClient.getData("SELECT kimlik, convert(date,TARIH)as TARIH, FORMAT(TARIH, 'dddd', 'tr-TR')  as GUN_ADI, (SELECT ADI FROM TBL_PER_VARDIYA_IZIN where kimlik=VARDIYA_IZIN_ID) AS PLAN_TIPI FROM TBL_PER_GRUP_CALISMA_PLANI WHERE ISLEM_ID = '"+kimlik+"'",licanceId,"GRUP_CALISMA_PLANI")
         return WorkPlanForGroupData
     } catch (error) {
         return error

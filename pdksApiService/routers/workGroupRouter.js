@@ -1,28 +1,37 @@
-
-const workGroupController = require('../controller/workGroupController');
-
-const workGroupRoute = [
+const groupController = require('../controller/groupController');
+const groupRoute = [
     {
     method: 'GET',
-    url: '/api/WorkGroups',
-    handler: workGroupController.getWorkGroupData,
+    url: '/api/group',
+    handler: groupController.getGroupList,
     schema: {
-        description: 'Çalışma Gruplarını Listeler.',
-        tags: ['WorkGroup'],
-        summary: 'Çalışma Gruplarını Listeler.'
+        description: 'Vardiya Listesini Getirir.',
+        tags: ['group'],
+        summary: 'Vardiya Listesini Getirir.'
     }
 } 
 ,
 {
     method: 'PUT',
-    url: '/api/workGroup',
-    handler: workGroupController.saveWorkGroup,
+    url: '/api/group',
+    handler: groupController.putGroup,
     schema: {
-        description: 'Yeni Çalışma Grubu Ekler .',
-        tags: ['WorkGroup'],
-        summary: 'Yeni Çalışma Grubu Ekler.'
+        description: 'Yeni Vardiya Ekler.',
+        tags: ['group'],
+        summary: 'Yeni Vardiya Ekler.'
+    }
+}
+,
+{
+    method: 'DELETE',
+    url: '/api/group',
+    handler: groupController.deleteGroup,
+    schema: {
+        description: 'Seçilen Vardiyayı Siler.',
+        tags: ['group'],
+        summary: 'Seçilen Vardiyayı Siler.'
     }
 }
 ]
 
-module.exports = workGroupRoute
+module.exports = groupRoute

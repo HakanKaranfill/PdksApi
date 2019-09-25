@@ -3,8 +3,8 @@ class shiftsModel {
     constructor() {
         this.kimlik = Number
         ,this.ADI = String
-        ,this.A_ZAMAN = Date
-        ,this.K_ZAMAN = Date
+        ,this.A_ZAMAN =''
+        ,this.K_ZAMAN =''
     }
 }
 exports.shiftsModel = shiftsModel

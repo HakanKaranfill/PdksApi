@@ -1,26 +1,49 @@
 
 const workPlanForGroupController = require('../controller/workPlanForGroupController');
-
 const workPlanForGroupRoute = [
     {
     method: 'GET',
     url: '/api/workPlanForGroup',
     handler: workPlanForGroupController.getworkPlanForGroupData,
     schema: {
-        description: 'Gruplara Bağlı Çalışma Planını Listeler.',
+        description: 'Vardiya Listesini Getirir.',
         tags: ['workPlanForGroup'],
-        summary: 'Gruplara Bağlı Çalışma Planını Listeler.'
+        summary: 'Vardiya Listesini Getirir.'
     }
 } 
+,
+    {
+    method: 'GET',
+    url: '/api/workPlanForGroup/:kimlik',
+    handler: workPlanForGroupController.getworkPlanForGroupData,
+    schema: {
+        description: 'Vardiya Listesini Getirir.',
+        tags: ['workPlanForGroup'],
+        summary: 'Vardiya Listesini Getirir.'
+    }
+} 
+,
+
+
+{
+    method: 'PUT',
+    url: '/api/workPlanForGroup',
+    handler: workPlanForGroupController.getworkPlanForGroupData,
+    schema: {
+        description: 'Yeni Vardiya Ekler.',
+        tags: ['workPlanForGroup'],
+        summary: 'Yeni Vardiya Ekler.'
+    }
+}
 // ,
 // {
-//     method: 'POST',
+//     method: 'DELETE',
 //     url: '/api/workPlanForGroup',
-//     handler: staffController.saveStaff,
+//     handler: workPlanForGroupController.,
 //     schema: {
-//         description: 'Yeni Personel Ekler.',
-//         tags: ['Staff'],
-//         summary: 'Yeni Personel Ekler.'
+//         description: 'Seçilen Vardiyayı Siler.',
+//         tags: ['workPlanForGroup'],
+//         summary: 'Seçilen Vardiyayı Siler.'
 //     }
 // }
 ]

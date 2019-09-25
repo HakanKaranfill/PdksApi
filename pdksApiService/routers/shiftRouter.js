@@ -1,28 +1,37 @@
-
 const shiftController = require('../controller/shiftController');
-
 const shiftRoute = [
     {
     method: 'GET',
     url: '/api/shift',
-    handler: shiftController.getShiftList,
+    handler: shiftController.getShiftData,
     schema: {
-        description: 'Vardiye Listesini Getirir.',
-        tags: ['Shift'],
-        summary: 'Vardiye Listesini Getirir.'
+        description: 'Vardiya Listesini Getirir.',
+        tags: ['shift'],
+        summary: 'Vardiya Listesini Getirir.'
     }
 } 
-// ,
-// {
-//     method: 'POST',
-//     url: '/api/permission',
-//     handler: staffController.saveStaff,
-//     schema: {
-//         description: 'Yeni Personel Ekler.',
-//         tags: ['Staff'],
-//         summary: 'Yeni Personel Ekler.'
-//     }
-// }
+,
+{
+    method: 'PUT',
+    url: '/api/shift',
+    handler: shiftController.putShift,
+    schema: {
+        description: 'Yeni Vardiya Ekler.',
+        tags: ['Shift'],
+        summary: 'Yeni Vardiya Ekler.'
+    }
+}
+,
+{
+    method: 'DELETE',
+    url: '/api/shift',
+    handler: shiftController.deleteShift,
+    schema: {
+        description: 'Seçilen Vardiyayı Siler.',
+        tags: ['shift'],
+        summary: 'Seçilen Vardiyayı Siler.'
+    }
+}
 ]
 
 module.exports = shiftRoute

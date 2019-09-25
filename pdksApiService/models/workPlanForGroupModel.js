@@ -1,11 +1,11 @@
 class workPlanForGroupModel {
     constructor() {
-        this.kimlik = Number
-        ,this.GRUP_ID = Number
-        ,this.TARIH = Date
-        ,this.GUN_ADI = String
-        ,this.ISLEM_ID = Number
-        ,this.VARDIYA_IZIN_ID = Number
+        this.kimlik
+        ,this.GRUP_ID 
+        ,this.TARIH 
+        ,this.GUN_ADI 
+        ,this.ISLEM_ID 
+        ,this.VARDIYA_IZIN_ID 
     }
 }
 exports.workPlanForGroupModel = workPlanForGroupModel
