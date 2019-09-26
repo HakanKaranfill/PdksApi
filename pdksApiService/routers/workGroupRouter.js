@@ -6,7 +6,7 @@ const groupRoute = [
     handler: groupController.getGroupList,
     schema: {
         description: 'Vardiya Listesini Getirir.',
-        tags: ['group'],
+        tags: ['Group'],
         summary: 'Vardiya Listesini Getirir.'
     }
 } 
@@ -17,7 +17,7 @@ const groupRoute = [
     handler: groupController.putGroup,
     schema: {
         description: 'Yeni Vardiya Ekler.',
-        tags: ['group'],
+        tags: ['Group'],
         summary: 'Yeni Vardiya Ekler.'
     }
 }
@@ -28,7 +28,7 @@ const groupRoute = [
     handler: groupController.deleteGroup,
     schema: {
         description: 'Seçilen Vardiyayı Siler.',
-        tags: ['group'],
+        tags: ['Group'],
         summary: 'Seçilen Vardiyayı Siler.'
     }
 }

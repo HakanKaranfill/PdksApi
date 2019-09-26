@@ -55,6 +55,11 @@ shiftRouter.forEach((route, index) => { // Loop over each mainSync Router
   fastify.route(route)
 })
 
+const shiftAndPermissionRouter = require('./routers/shiftAndPermissionRouter');
+shiftAndPermissionRouter.forEach((route, index) => { // Loop over each mainSync Router
+  fastify.route(route)
+})
+
 const workPlanForGroupRouter = require('./routers/workPlanForGroupRouter');
 workPlanForGroupRouter.forEach((route, index) => { // Loop over each mainSync Router
   fastify.route(route)

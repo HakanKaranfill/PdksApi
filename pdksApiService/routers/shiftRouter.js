@@ -6,7 +6,7 @@ const shiftRoute = [
     handler: shiftController.getShiftData,
     schema: {
         description: 'Vardiya Listesini Getirir.',
-        tags: ['shift'],
+        tags: ['Shift'],
         summary: 'Vardiya Listesini Getirir.'
     }
 } 
@@ -28,7 +28,7 @@ const shiftRoute = [
     handler: shiftController.deleteShift,
     schema: {
         description: 'Seçilen Vardiyayı Siler.',
-        tags: ['shift'],
+        tags: ['Shift'],
         summary: 'Seçilen Vardiyayı Siler.'
     }
 }

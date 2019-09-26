@@ -16,6 +16,19 @@ exports.getStaffList = async(licanceId) => {
 
 }
 
+
+
+//----------------------------------------------------------------------
+exports.getShiftAndPermissionList = async(licanceId) => {
+    try {
+        let shiftAndPermissionData = await socketClient.getData("SELECT kimlik, ADI  FROM TBL_PER_VARDIYA_IZIN",licanceId,"VARDIYA_IZIN_TATIL")
+        return shiftAndPermissionData
+    } catch (error) {
+        return error
+    }
+
+}
+
 //----------------------------------------------------------------------
 
 exports.getPermissionList = async(licanceId) => {
@@ -151,7 +164,7 @@ exports.putGroup = async(licanceId,model) => {
 
 exports.getWorkPlanForGroupList = async(licanceId,kimlik) => {
     try {
-        let WorkPlanForGroupData = await socketClient.getData("SELECT kimlik, convert(date,TARIH)as TARIH, FORMAT(TARIH, 'dddd', 'tr-TR')  as GUN_ADI, (SELECT ADI FROM TBL_PER_VARDIYA_IZIN where kimlik=VARDIYA_IZIN_ID) AS PLAN_TIPI FROM TBL_PER_GRUP_CALISMA_PLANI WHERE ISLEM_ID = '"+kimlik+"'",licanceId,"GRUP_CALISMA_PLANI")
+        let WorkPlanForGroupData = await socketClient.getData("SELECT kimlik, convert(date,TARIH) as TARIH, FORMAT(TARIH, 'dddd', 'tr-TR')  as GUN_ADI, (SELECT ADI FROM TBL_PER_VARDIYA_IZIN where kimlik=VARDIYA_IZIN_ID) AS PLAN_TIPI FROM TBL_PER_GRUP_CALISMA_PLANI WHERE ISLEM_ID = '"+kimlik+"' ORDER BY convert(date,TARIH)",licanceId,"GRUP_CALISMA_PLANI")
         return WorkPlanForGroupData
     } catch (error) {
         return error

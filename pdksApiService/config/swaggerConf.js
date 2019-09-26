@@ -19,7 +19,8 @@ exports.config = {
         { name: 'Staff', description: 'İşletmeye Ait Tüm Personel Listesini Verir.' } ,
         { name: 'Permission', description: 'İşletmeye Ait Tatil / İzin Listesini Verir.' },
         { name: 'Shift', description: 'İşletmeye Ait Vardiye Listesini Verir.' },
-        { name: 'WorkGroup', description: 'İşletmeye Ait Çalışma Gruplarını Verir.' },
+        { name: 'shiftAndPermission', description: 'Tatil / izin / Vardiya Listesini Getirir.' } ,
+        { name: 'Group', description: 'İşletmeye Ait Personel Gruplarını Verir.' },
         { name: 'workPlanForGroup', description: 'Gruplara Bağlı Çalışma Planı Listesini Verir.' },
         { name: 'WorkPlanForUser', description: 'Kullanıcılara Bağlı Çalışma Planı Listesini Verir.' }
       ]
