@@ -12,17 +12,17 @@ const staffRoute = [
         summary: 'Personel Listesini Getirir.'
     }
 } 
-// ,
-// {
-//     method: 'POST',
-//     url: '/api/permission',
-//     handler: staffController.saveStaff,
-//     schema: {
-//         description: 'Yeni Personel Ekler.',
-//         tags: ['Staff'],
-//         summary: 'Yeni Personel Ekler.'
-//     }
-// }
+,
+{
+    method: 'PUT',
+    url: '/api/staff',
+    handler: staffController.updateStaff,
+    schema: {
+        description: 'Personel Bilgilerini Günceller',
+        tags: ['Staff'],
+        summary: 'Personel Bilgilerini Günceller'
+    }
+}
 ]
 
 module.exports = staffRoute
