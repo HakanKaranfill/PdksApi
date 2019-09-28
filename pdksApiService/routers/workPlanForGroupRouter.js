@@ -28,7 +28,7 @@ const workPlanForGroupRoute = [
 {
     method: 'PUT',
     url: '/api/workPlanForGroup',
-    handler: workPlanForGroupController.getworkPlanForGroupData,
+    handler: workPlanForGroupController.putWorkPlanForGroup,
     schema: {
         description: 'Yeni Vardiya Ekler.',
         tags: ['workPlanForGroup'],

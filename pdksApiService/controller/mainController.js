@@ -176,13 +176,33 @@ exports.putGroup = async(licanceId,model) => {
 
 exports.getWorkPlanForGroupList = async(licanceId,kimlik) => {
     try {
-        let WorkPlanForGroupData = await socketClient.getData("SELECT kimlik, convert(date,TARIH) as TARIH, FORMAT(TARIH, 'dddd', 'tr-TR')  as GUN_ADI, (SELECT ADI FROM TBL_PER_VARDIYA_IZIN where kimlik=VARDIYA_IZIN_ID) AS PLAN_TIPI FROM TBL_PER_GRUP_CALISMA_PLANI WHERE ISLEM_ID = '"+kimlik+"' ORDER BY convert(date,TARIH)",licanceId,"GRUP_CALISMA_PLANI")
+        let WorkPlanForGroupData = await socketClient.getData("SELECT kimlik, convert(date,TARIH) as TARIH, FORMAT(TARIH, 'dddd', 'tr-TR')  as GUN_ADI, (SELECT ADI FROM TBL_PER_VARDIYA_IZIN where kimlik=VARDIYA_IZIN_ID) AS PLAN_TIPI FROM TBL_PER_GRUP_CALISMA_PLANI WHERE GRUP_ID = '"+kimlik+"' ORDER BY convert(date,TARIH)",licanceId,"GRUP_CALISMA_PLANI")
         return WorkPlanForGroupData
     } catch (error) {
         return error
     }
 
 }
+
+exports.putWorkPlanForGroup = async(licanceId,model) => {   
+    try {
+        if (model.workPlanForGroupModelsFrm.kimlik==undefined) {//buraya bak tuna !!
+            
+            Cmd =  "EXEC [SP_PER_GRUP_CALISMA_PLANI] '"+ model.workPlanForGroupModelsFrm.startDate +"','"+ model.workPlanForGroupModelsFrm.endDate +"','"+ model.selectData +"','"+ model.workPlanForGroupModelsFrm.sunday +"','"+ model.workPlanForGroupModelsFrm.monday +"','"+ model.workPlanForGroupModelsFrm.tuesday +"','"+ model.workPlanForGroupModelsFrm.wednesday +"','"+ model.workPlanForGroupModelsFrm.thursday +"','"+ model.workPlanForGroupModelsFrm.friday +"','"+ model.workPlanForGroupModelsFrm.saturday +"'"
+        }
+        else{
+            Cmd =  "UPDATE TBL_PER_VARDIYA_IZIN SET ADI = '"+ model.ADI +"' , A_ZAMAN = '"+ model.A_ZAMAN +"' , K_ZAMAN = '"+ model.K_ZAMAN +"'  WHERE kimlik = "+ model.kimlik 
+        }  
+        let insertResult = await socketEvent.Event(Cmd,licanceId,"GRUP_CALISMA_PLANI_EKLE")
+        response.message="Ok"
+        response.status="True"
+        response.data=""       
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
 
 
 exports.getWorkPlanForUserList = async(licanceId) => {

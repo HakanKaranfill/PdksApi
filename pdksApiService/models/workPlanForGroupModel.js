@@ -8,4 +8,8 @@ class workPlanForGroupModel {
         ,this.VARDIYA_IZIN_ID 
     }
 }
+
+
+
+
 exports.workPlanForGroupModel = workPlanForGroupModel
