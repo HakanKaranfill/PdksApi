@@ -22,7 +22,11 @@ exports.config = {
         { name: 'shiftAndPermission', description: 'Tatil / izin / Vardiya Listesini Getirir.' } ,
         { name: 'Group', description: 'İşletmeye Ait Personel Gruplarını Verir.' },
         { name: 'workPlanForGroup', description: 'Gruplara Bağlı Çalışma Planı Listesini Verir.' },
-        { name: 'WorkPlanForUser', description: 'Kullanıcılara Bağlı Çalışma Planı Listesini Verir.' }
+        { name: 'workPlanForUser', description: 'Kullanıcılara Bağlı Çalışma Planı Listesini Verir.' },
+        { name: 'montlySchedule', description: 'İki Tarih Arasındaki Çalışma Çizelgesini Listeler.' }
+
+
+        
       ]
     }
   }

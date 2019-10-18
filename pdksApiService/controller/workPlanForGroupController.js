@@ -20,8 +20,21 @@ exports.putWorkPlanForGroup=async(req,res) =>{
         // workPlanForGroupFrom.grupID = req.body.selectData
         let licanceNo = req.body.licanceNo
 
-        let WorkPlanForGroupData = await sqlMain.putWorkPlanForGroup(licanceNo,workPlanForGroupFrom)        
-        res.send(WorkPlanForGroupData)
+        let workPlanForGroupModel = await sqlMain.putWorkPlanForGroup(licanceNo,workPlanForGroupFrom)        
+        res.send(workPlanForGroupModel)
+    } catch (err) {
+        return err
+    }
+}
+
+
+exports.deleteWorkPlanForGroup=async(req,res) =>{
+    try {
+        console.log(req.body)
+        let workPlanForGroup = req.body.workPlanForGroupModel
+        let licanceNo = req.body.licanceNo
+        let shiftData = await sqlMain.deleteworkPlanForGroup(licanceNo,workPlanForGroup)        
+        res.send(shiftData)
     } catch (err) {
         return err
     }

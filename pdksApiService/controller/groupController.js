@@ -21,7 +21,7 @@ exports.putGroup=async(req,res) =>{
         res.send(groupData)
     } catch (err) {
         return err
-    }
+    }a
 }
 exports.deleteGroup=async(req,res) =>{
     try {

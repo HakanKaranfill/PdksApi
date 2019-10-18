@@ -75,7 +75,10 @@ workPlanForUserRouter.forEach((route, index) => { // Loop over each mainSync Rou
   fastify.route(route)
 })
 
-
+const montlyScheduleRouter = require('./routers/montlyScheduleRouter');
+montlyScheduleRouter.forEach((route,index) => {
+fastify.route(route)
+})
 
 // ? Sql Connection Open (tek baglanti acmak ne kadar dogru)
 // const Conf = require("./config/mssqlConf")

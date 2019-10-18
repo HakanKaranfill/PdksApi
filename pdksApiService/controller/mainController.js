@@ -8,7 +8,7 @@ const returnModel = require('../models/responseModel');
 let response = new returnModel.responseModel()
 exports.getStaffList = async(licanceId) => {
     try {
-        let staffData = await socketClient.getData("SELECT Kimlik, (SELECT SUBE_KODU+' - '+SUBE_ADI FROM TBL_SUBE WHERE TBL_SUBE.SUBE_KODU = TBL_PER.SUBE_KODU) AS SUBE_KODU, PERSONEL_KODU, PERSONEL_ADI, AKTIF, ISE_GIRIS, ISTEN_AYRILIS, UNVAN, (SELECT GRUP_ADI FROM TBL_PER_GRUP WHERE kimlik = GRUP_ID) AS GRUP_ADI FROM TBL_PER",licanceId,"TBL_PER")
+        let staffData = await socketClient.getData("SELECT Kimlik, (SELECT SUBE_KODU+' - '+SUBE_ADI FROM TBL_SUBE WHERE TBL_SUBE.SUBE_KODU = TBL_PER.SUBE_KODU) AS SUBE_KODU, PERSONEL_KODU, PERSONEL_ADI, AKTIF, ISE_GIRIS, ISTEN_AYRILIS, UNVAN, GRUP_ID FROM TBL_PER",licanceId,"TBL_PER")
         return staffData
     } catch (error) {
         return error
@@ -17,8 +17,8 @@ exports.getStaffList = async(licanceId) => {
 }
 exports.updateStaff = async(licanceId,model) => {   
     try {
-            Cmd =  "UPDATE TBL_PER SET ISE_GIRIS = '"+ model.ISE_GIRIS +"' , ISTEN_AYRILIS = '"+ model.A +"'  WHERE kimlik = "+ model.kimlik 
-        let insertResult = await socketEvent.Event(Cmd,licanceId,"staff")
+        Cmd =  "UPDATE TBL_PER SET ISE_GIRIS = CASE WHEN '"+ model.ISE_GIRIS +"' = 'null' then NULL ELSE '"+ model.ISE_GIRIS +"' END , ISTEN_AYRILIS = CASE WHEN'"+ model.ISTEN_AYRILIS +"' = 'null' then NULL ELSE '"+ model.ISTEN_AYRILIS +"' END , UNVAN = '"+ model.UNVAN +"' , GRUP_ID = '"+ model.GRUP_ID +"' WHERE kimlik = "+ model.Kimlik 
+        let updateResult = await socketEvent.Event(Cmd,licanceId,"TBL_PER_UPDATE")
         response.message="Ok"
         response.status="True"
         response.data=""       
@@ -113,7 +113,7 @@ exports.putShift = async(licanceId,model) => {
     try {
         if (model.kimlik==undefined) {
             
-            Cmd =  "INSERT INTO TBL_PER_VARDIYA_IZIN (ADI,A_ZAMAN,K_ZAMAN) VALUES" + "('" + model.shiftName +"'" + ",'" + model.startTime +"'" + ",'" + model.stopTime+"' )" 
+            Cmd =  "INSERT INTO TBL_PER_VARDIYA_IZIN (ADI,A_ZAMAN,K_ZAMAN) VALUES" + "('" + model.shiftName +"'" + ", DATEADD(s,-1 * DATEPART(SS,'" + model.startTime +"'),'" + model.startTime +"')" + ", DATEADD(s,-1 * DATEPART(SS,'" + model.stopTime+"'),'" + model.stopTime+"') )" 
         }
         else{
             Cmd =  "UPDATE TBL_PER_VARDIYA_IZIN SET ADI = '"+ model.ADI +"' , A_ZAMAN = '"+ model.A_ZAMAN +"' , K_ZAMAN = '"+ model.K_ZAMAN +"'  WHERE kimlik = "+ model.kimlik 
@@ -141,7 +141,9 @@ exports.getGroupList = async(licanceId) => {
 }
 
 exports.deleteGroup = async(licanceId,model) => {
+
     try {
+        let deletePlan = await socketEvent.Event("DELETE FROM TBL_PER_GRUP_CALISMA_PLANI WHERE GRUP_ID = '"+model.kimlik+"'",licanceId,"GRUP_CALISMA_PLANI_DELETE")
         let groupData = await socketEvent.Event("DELETE FROM TBL_PER_GRUP WHERE kimlik ='"+model.kimlik+"'",licanceId,"GRUP_LISTE_DELETE")
         response.message="Ok"
         response.status="True"
@@ -155,7 +157,7 @@ exports.deleteGroup = async(licanceId,model) => {
 
 exports.putGroup = async(licanceId,model) => {   
     try {
-        if (model.kimlik==undefined) {
+        if (model.kimlik==undefined || model.kimlik== "" ){
             
             Cmd =  "INSERT INTO TBL_PER_GRUP (GRUP_ADI) VALUES('" + model.groupName +"')"
         }
@@ -176,7 +178,7 @@ exports.putGroup = async(licanceId,model) => {
 
 exports.getWorkPlanForGroupList = async(licanceId,kimlik) => {
     try {
-        let WorkPlanForGroupData = await socketClient.getData("SELECT kimlik, convert(date,TARIH) as TARIH, FORMAT(TARIH, 'dddd', 'tr-TR')  as GUN_ADI, (SELECT ADI FROM TBL_PER_VARDIYA_IZIN where kimlik=VARDIYA_IZIN_ID) AS PLAN_TIPI FROM TBL_PER_GRUP_CALISMA_PLANI WHERE GRUP_ID = '"+kimlik+"' ORDER BY convert(date,TARIH)",licanceId,"GRUP_CALISMA_PLANI")
+        let WorkPlanForGroupData = await socketClient.getData("SELECT kimlik, convert(date,TARIH) as TARIH, FORMAT(TARIH, 'dddd', 'tr-TR')  as GUN_ADI, VARDIYA_IZIN_ID FROM TBL_PER_GRUP_CALISMA_PLANI WHERE GRUP_ID = '"+kimlik+"' ORDER BY convert(date,TARIH)",licanceId,"GRUP_CALISMA_PLANI")
         return WorkPlanForGroupData
     } catch (error) {
         return error
@@ -188,10 +190,10 @@ exports.putWorkPlanForGroup = async(licanceId,model) => {
     try {
         if (model.workPlanForGroupModelsFrm.kimlik==undefined) {//buraya bak tuna !!
             
-            Cmd =  "EXEC [SP_PER_GRUP_CALISMA_PLANI] '"+ model.workPlanForGroupModelsFrm.startDate +"','"+ model.workPlanForGroupModelsFrm.endDate +"','"+ model.selectData +"','"+ model.workPlanForGroupModelsFrm.sunday +"','"+ model.workPlanForGroupModelsFrm.monday +"','"+ model.workPlanForGroupModelsFrm.tuesday +"','"+ model.workPlanForGroupModelsFrm.wednesday +"','"+ model.workPlanForGroupModelsFrm.thursday +"','"+ model.workPlanForGroupModelsFrm.friday +"','"+ model.workPlanForGroupModelsFrm.saturday +"'"
+            Cmd =  "EXEC [SP_PER_CALISMA_PLANI] '"+ model.workPlanForGroupModelsFrm.startDate +"','"+ model.workPlanForGroupModelsFrm.endDate +"','"+ model.selectData +"','"+ model.workPlanForGroupModelsFrm.sunday +"','"+ model.workPlanForGroupModelsFrm.monday +"','"+ model.workPlanForGroupModelsFrm.tuesday +"','"+ model.workPlanForGroupModelsFrm.wednesday +"','"+ model.workPlanForGroupModelsFrm.thursday +"','"+ model.workPlanForGroupModelsFrm.friday +"','"+ model.workPlanForGroupModelsFrm.saturday +"','GRUP'"
         }
         else{
-            Cmd =  "UPDATE TBL_PER_VARDIYA_IZIN SET ADI = '"+ model.ADI +"' , A_ZAMAN = '"+ model.A_ZAMAN +"' , K_ZAMAN = '"+ model.K_ZAMAN +"'  WHERE kimlik = "+ model.kimlik 
+            Cmd =  "UPDATE TBL_PER_GRUP_CALISMA_PLANI SET VARDIYA_IZIN_ID = '"+ model.workPlanForGroupModelsFrm.VARDIYA_IZIN_ID +"' WHERE kimlik = "+ model.workPlanForGroupModelsFrm.kimlik 
         }  
         let insertResult = await socketEvent.Event(Cmd,licanceId,"GRUP_CALISMA_PLANI_EKLE")
         response.message="Ok"
@@ -204,11 +206,38 @@ exports.putWorkPlanForGroup = async(licanceId,model) => {
 }
 
 
+exports.deleteworkPlanForGroup = async(licanceId,model) => {
 
-exports.getWorkPlanForUserList = async(licanceId) => {
     try {
-        let WorkPlanForUserData = await socketClient.getData("SELECT kimlik, TARIH, GUN_ADI, (SELECT ADI FROM TBL_PER_VARDIYA_IZIN where kimlik=VARDIYA_IZIN_ID) AS PLAN_TIPI FROM TBL_PER_CALISMA_PLANI WHERE ISLEM_ID = 1",licanceId,"GRUP_CALISMA_PLANI")
-        return WorkPlanForUserData
+        let deletePlan = await socketEvent.Event("DELETE FROM TBL_PER_GRUP_CALISMA_PLANI WHERE GRUP_ID = '"+model.kimlik+"'",licanceId,"GRUP_CALISMA_PLANI_DELETE")
+        response.message="Ok"
+        response.status="True"
+        response.data=""       
+        return response
+    } catch (error) {
+        return error
+    }
+
+}
+
+///------------------------------------------------------
+
+// exports.getWorkPlanForUserList = async(licanceId) => {
+//     try {
+//         let WorkPlanForUserData = await socketClient.getData("SELECT kimlik, TARIH, GUN_ADI, (SELECT ADI FROM TBL_PER_VARDIYA_IZIN where kimlik=VARDIYA_IZIN_ID) AS ADI FROM TBL_PER_CALISMA_PLANI WHERE ISLEM_ID = 1",licanceId,"GRUP_CALISMA_PLANI")
+//         return WorkPlanForUserData
+//     } catch (error) {
+//         return error
+//     }
+
+// }
+
+
+
+exports.getWorkPlanForUserList = async(licanceId,kimlik) => {
+    try {
+        let WorkPlanForGroupData = await socketClient.getData("SELECT kimlik, convert(date,TARIH) as TARIH, FORMAT(TARIH, 'dddd', 'tr-TR')  as GUN_ADI, VARDIYA_IZIN_ID FROM TBL_PER_CALISMA_PLANI WHERE PER_ID = '"+kimlik+"' ORDER BY convert(date,TARIH)",licanceId,"GRUP_CALISMA_PLANI")
+        return WorkPlanForGroupData
     } catch (error) {
         return error
     }
@@ -216,4 +245,59 @@ exports.getWorkPlanForUserList = async(licanceId) => {
 }
 
 
+exports.putWorkPlanForUser = async(licanceId,model) => {   
+    try {
+        // if (model.workPlanForUserModelsFrm.kimlik==undefined) {
+            
+            Cmd =   "EXEC [SP_PER_CALISMA_PLANI] '"+ model.workPlanForUserModelsFrm.startDate +"','"+ model.workPlanForUserModelsFrm.endDate +"','"+ model.selectData.Kimlik +"','"+ model.workPlanForUserModelsFrm.sunday +"','"+ model.workPlanForUserModelsFrm.monday +"','"+ model.workPlanForUserModelsFrm.tuesday +"','"+ model.workPlanForUserModelsFrm.wednesday +"','"+ model.workPlanForUserModelsFrm.thursday +"','"+ model.workPlanForUserModelsFrm.friday +"','"+ model.workPlanForUserModelsFrm.saturday +"','PER'"
+        // }
+        // else{
+            // Cmd = "" // buraya bak tuna !!!"UPDATE TBL_PER_CALISMA_PLANI SET VARDIYA_IZIN_ID = '"+ model.workPlanForUserModelsFrm.VARDIYA_IZIN_ID +"' WHERE kimlik = "+ model.workPlanForGroupModelsFrm.kimlik 
+        // }  
+        let insertResult = await socketEvent.Event(Cmd,licanceId,"PER_CALISMA_PLANI_EKLE")
+        response.message="Ok"
+        response.status="True"
+        response.data=""       
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
+
+exports.deleteworkPlanForUser = async(licanceId,model) => {
+
+    try {
+        let deletePlan = await socketEvent.Event("DELETE FROM TBL_PER_CALISMA_PLANI WHERE kimlik = '"+model.kimlik+"'",licanceId,"PER_CALISMA_PLANI_DELETE")
+        response.message="Ok"
+        response.status="True"
+        response.data=""       
+        return response
+    } catch (error) {
+        return error
+    }
+
+}
+
+//-----------------
+exports.putMontlySchedule = async(licanceId,model) => {   
+    try {
+
+console.log(model)
+        if (model.startDate==undefined || model.startDate== "" ){
+            
+            Cmd =  "UPDATE TBL_PERHAR SET ONAY = '" + model.approval +"' , ACIKLAMA = '" + model.explanation +"' where kimlik = '" + model.perharID +"'"
+        }
+        else{
+            
+            Cmd =  "SELECT * FROM [FUNC_PER_ONAY]  ('" + model.startDate +"','"+model.endDate+"',NULL) WHERE PERHAR_ID IS NOT NULL ORDER BY PERSONEL_ADI,TARIH "
+        
+        }  
+
+        let montlyScheduleData = await socketEvent.Event(Cmd,licanceId,"montlyScheduleData")
+            return montlyScheduleData
+    } catch (error) {
+        return error
+    }
+}
 

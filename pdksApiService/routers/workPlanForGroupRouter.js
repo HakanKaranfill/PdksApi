@@ -35,17 +35,17 @@ const workPlanForGroupRoute = [
         summary: 'Yeni Vardiya Ekler.'
     }
 }
-// ,
-// {
-//     method: 'DELETE',
-//     url: '/api/workPlanForGroup',
-//     handler: workPlanForGroupController.,
-//     schema: {
-//         description: 'Seçilen Vardiyayı Siler.',
-//         tags: ['workPlanForGroup'],
-//         summary: 'Seçilen Vardiyayı Siler.'
-//     }
-// }
+,
+{
+    method: 'DELETE',
+    url: '/api/workPlanForGroup',
+    handler: workPlanForGroupController.deleteWorkPlanForGroup,
+    schema: {
+        description: 'Seçilen Vardiyayı Siler.',
+        tags: ['workPlanForGroup'],
+        summary: 'Seçilen Vardiyayı Siler.'
+    }
+}
 ]
 
 module.exports = workPlanForGroupRoute

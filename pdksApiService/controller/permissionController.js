@@ -13,8 +13,7 @@ exports.getPermissionData = async(req,res) => {
 }
 exports.savePermission=async(req,res) =>{
     try {
-        console.log(req.body)
-        let perModel = req.body.permissionModel
+    let perModel = req.body.permissionModel
         let licanceNo = req.body.licanceNo
         let permissionData = await sqlMain.savePermissions(licanceNo,perModel)        
         res.send(permissionData)

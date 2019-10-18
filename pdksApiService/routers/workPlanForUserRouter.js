@@ -2,27 +2,51 @@
 const workPlanForUserController = require('../controller/workPlanForUserController');
 
 const workPlanForUserRoute = [
+    // {
+    //     method: 'GET',
+    //     url: '/api/workPlanForUser',
+    //     handler: workPlanForUserController.getWorkPlanForUserData,
+    //     schema: {
+    //         description: 'Vardiya Listesini Getirir.',
+    //         tags: ['workPlanForUser'],
+    //         summary: 'Vardiya Listesini Getirir.'
+    //     }
+    // } 
+    // ,
+        {
+        method: 'GET',
+        url: '/api/workPlanForUser/:kimlik',
+        handler: workPlanForUserController.getWorkPlanForUserData,
+        schema: {
+            description: 'Vardiya Listesini Getirir.',
+            tags: ['workPlanForUser'],
+            summary: 'Vardiya Listesini Getirir.'
+        }
+    } 
+    ,
+    
+    
     {
-    method: 'GET',
-    url: '/api/WorkPlanForUser',
-    handler: workPlanForUserController.getWorkPlanForUserData,
-    schema: {
-        description: 'Gruplara Bağlı Çalışma Planını Listeler.',
-        tags: ['WorkPlanForUser'],
-        summary: 'Gruplara Bağlı Çalışma Planını Listeler.'
+        method: 'PUT',
+        url: '/api/workPlanForUser',
+        handler: workPlanForUserController.putWorkPlanForUser,
+        schema: {
+            description: 'Yeni Vardiya Ekler.',
+            tags: ['workPlanForUser'],
+            summary: 'Yeni Vardiya Ekler.'
+        }
     }
-} 
-// ,
-// {
-//     method: 'POST',
-//     url: '/api/workGroupPlan',
-//     handler: staffController.saveStaff,
-//     schema: {
-//         description: 'Yeni Personel Ekler.',
-//         tags: ['Staff'],
-//         summary: 'Yeni Personel Ekler.'
-//     }
-// }
+    ,
+    {
+        method: 'DELETE',
+        url: '/api/workPlanForUser',
+        handler: workPlanForUserController.deleteWorkPlanForUser,
+        schema: {
+            description: 'Seçilen Vardiyayı Siler.',
+            tags: ['workPlanForUser'],
+            summary: 'Seçilen Vardiyayı Siler.'
+        }
+    }
 ]
 
 module.exports = workPlanForUserRoute
