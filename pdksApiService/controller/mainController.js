@@ -8,7 +8,7 @@ const returnModel = require('../models/responseModel');
 let response = new returnModel.responseModel()
 exports.getStaffList = async(licanceId) => {
     try {
-        let staffData = await socketClient.getData("SELECT Kimlik, (SELECT SUBE_KODU+' - '+SUBE_ADI FROM TBL_SUBE WHERE TBL_SUBE.SUBE_KODU = TBL_PER.SUBE_KODU) AS SUBE_KODU, PERSONEL_KODU, PERSONEL_ADI, AKTIF, ISE_GIRIS, ISTEN_AYRILIS, UNVAN, GRUP_ID FROM TBL_PER",licanceId,"TBL_PER")
+        let staffData = await socketClient.getData("SELECT Kimlik, (SELECT SUBE_KODU+' - '+SUBE_ADI FROM TBL_SUBE WHERE TBL_SUBE.SUBE_KODU = TBL_PER.SUBE_KODU) AS SUBE_KODU, PERSONEL_KODU, PERSONEL_ADI, AKTIF, ISE_GIRIS, ISTEN_AYRILIS, UNVAN_ID, GRUP_ID FROM TBL_PER",licanceId,"TBL_PER")
         return staffData
     } catch (error) {
         return error
@@ -84,6 +84,16 @@ exports.savePermissions = async(licanceId,model) => {
     }
 }
 
+exports.getPermissionControl = async(licanceId,kimlik) => {
+    try {
+        let permissionControl = await socketClient.getData("SELECT COUNT(*) AS permissionControl FROM (SELECT * FROM TBL_PER_CALISMA_PLANI UNION ALL SELECT * FROM TBL_PER_GRUP_CALISMA_PLANI ) AS T1 WHERE VARDIYA_IZIN_ID = '"+ kimlik +"'",licanceId,"VARDIYA_IZIN_KONTROL")
+        return permissionControl
+    } catch (error) {
+        return error
+    }
+    
+}
+
 //---------------------------------------------------------------------- SHIFT
 
 exports.getShiftList = async(licanceId) => {
@@ -140,6 +150,17 @@ exports.getGroupList = async(licanceId) => {
 
 }
 
+exports.getGroupControl = async(licanceId,kimlik) => {
+    try {
+        let groupControl = await socketClient.getData("SELECT COUNT(*) as groupControl FROM TBL_PER where GRUP_ID = '"+ kimlik +"'",licanceId,"GROUP_KONTROL")
+        return groupControl
+    } catch (error) {
+        return error
+    }
+    
+}
+
+
 exports.deleteGroup = async(licanceId,model) => {
 
     try {
@@ -157,9 +178,9 @@ exports.deleteGroup = async(licanceId,model) => {
 
 exports.putGroup = async(licanceId,model) => {   
     try {
-        if (model.kimlik==undefined || model.kimlik== "" ){
+        if (model.kimlik==undefined || model.kimlik== "" || model.kimlik== "0"){
             
-            Cmd =  "INSERT INTO TBL_PER_GRUP (GRUP_ADI) VALUES('" + model.groupName +"')"
+            Cmd =  "INSERT INTO TBL_PER_GRUP (GRUP_ADI) VALUES ('" + model.groupName +"')"
         }
         else{
             Cmd =  "UPDATE TBL_PER_GRUP SET GRUP_ADI = '"+ model.GRUP_ADI +"'  WHERE kimlik = "+ model.kimlik 
@@ -286,7 +307,7 @@ exports.putMontlySchedule = async(licanceId,model) => {
 console.log(model)
         if (model.startDate==undefined || model.startDate== "" ){
             
-            Cmd =  "UPDATE TBL_PERHAR SET ONAY = '" + model.approval +"' , ACIKLAMA = '" + model.explanation +"' where kimlik = '" + model.perharID +"'"
+            Cmd =  "UPDATE TBL_PERHAR SET ONAY = '" + model.approval +"' , ACIKLAMA = '" + model.description +"' , KULLANICI = '" + model.loginUser +"' where kimlik = '" + model.perharID +"'"
         }
         else{
             
@@ -301,3 +322,51 @@ console.log(model)
     }
 }
 
+
+//------------------ TITLE
+    
+exports.getTitleList = async(licanceId) => {
+    try {
+        let titleData = await socketClient.getData("SELECT kimlik,UNVAN_ADI FROM TBL_PER_UNVAN",licanceId,"UNVAN_LISTE")
+        return titleData
+    } catch (error) {
+        return error
+    }
+
+}
+
+
+exports.deleteTitle = async(licanceId,kimlik) => {
+
+    try {
+        let deleteTitle = await socketEvent.Event("DELETE FROM TBL_PER_UNVAN WHERE kimlik = '"+kimlik+"'",licanceId,"UNVAN_DELETE")
+        response.message="Ok"
+        response.status="True"
+        response.data=""       
+        return response
+    } catch (error) {
+        return error
+    }
+
+}
+
+exports.putTitle = async(licanceId,model) => {   
+    try {
+        
+        if (model.kimlik==undefined || model.kimlik== "" || model.kimlik== "0" ){
+            
+            Cmd =  "INSERT INTO TBL_PER_UNVAN (UNVAN_ADI) VALUES ('" + model.UNVAN_ADI +"')" 
+        }
+        else{
+            Cmd =  "UPDATE TBL_PER_UNVAN SET UNVAN_ADI = '"+ model.UNVAN_ADI +"'  WHERE kimlik = "+ model.kimlik 
+        }  
+        let insertResult = await socketEvent.Event(Cmd,licanceId,"UNVAN_PUT")
+        response.message="Ok"
+        response.status="True"
+        response.data=""       
+        return response
+    } catch (error) {
+        return error
+    }
+}
+//-------------------TITLE END

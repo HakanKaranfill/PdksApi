@@ -18,12 +18,13 @@ exports.config = {
       tags: [
         { name: 'Staff', description: 'İşletmeye Ait Tüm Personel Listesini Verir.' } ,
         { name: 'Permission', description: 'İşletmeye Ait Tatil / İzin Listesini Verir.' },
-        { name: 'Shift', description: 'İşletmeye Ait Vardiye Listesini Verir.' },
+        { name: 'Shift', description: 'İşletmeye Ait Shift Listesini Verir.' },
         { name: 'shiftAndPermission', description: 'Tatil / izin / Vardiya Listesini Getirir.' } ,
         { name: 'Group', description: 'İşletmeye Ait Personel Gruplarını Verir.' },
         { name: 'workPlanForGroup', description: 'Gruplara Bağlı Çalışma Planı Listesini Verir.' },
         { name: 'workPlanForUser', description: 'Kullanıcılara Bağlı Çalışma Planı Listesini Verir.' },
-        { name: 'montlySchedule', description: 'İki Tarih Arasındaki Çalışma Çizelgesini Listeler.' }
+        { name: 'montlySchedule', description: 'İki Tarih Arasındaki Çalışma Çizelgesini Listeler.' },
+        { name: 'title', description: 'İşletmeye Ait Ünvan Listesini Verir.' }
 
 
         

@@ -14,6 +14,17 @@ const permissionRoute = [
 } 
 ,
 {
+    method: 'GET',
+    url: '/api/permission/:kimlik',
+    handler: permissionController.getPermissionControl,
+    schema: {
+        description: 'Tatil / izin Listesini Getirir.',
+        tags: ['Permission'],
+        summary: 'Tatil / izin Getirir.'
+    }
+} 
+,
+{
     method: 'PUT',
     url: '/api/permission',
     handler: permissionController.savePermission,

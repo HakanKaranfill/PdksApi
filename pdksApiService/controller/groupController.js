@@ -11,6 +11,17 @@ exports.getGroupList = async(req,res) => {
     }
     
 }
+
+exports.getGroupControl = async(req,res) => {
+    try {
+        let reqs = req
+        let groupControl = await sqlMain.getGroupControl(2402,req.params.kimlik)        
+        res.send(groupControl)
+    } catch (err) {
+        return err
+    }
+    
+}
 exports.putGroup=async(req,res) =>{
     try {
         console.log(req.body)
@@ -21,7 +32,7 @@ exports.putGroup=async(req,res) =>{
         res.send(groupData)
     } catch (err) {
         return err
-    }a
+    }
 }
 exports.deleteGroup=async(req,res) =>{
     try {

@@ -1,6 +1,6 @@
 class workGroupModel {
     constructor() {
-        this.Kimlik = Number
+        this.kimlik = Number
         ,this.GRUP_ADI = String
     }
 }

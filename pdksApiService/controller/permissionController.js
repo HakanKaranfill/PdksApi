@@ -11,6 +11,18 @@ exports.getPermissionData = async(req,res) => {
     }
     
 }
+
+exports.getPermissionControl = async(req,res) => {
+    try {
+        let reqs = req
+        let permissionControl = await sqlMain.getPermissionControl(2402,req.params.kimlik)        
+        res.send(permissionControl)
+    } catch (err) {
+        return err
+    }
+    
+}
+
 exports.savePermission=async(req,res) =>{
     try {
     let perModel = req.body.permissionModel

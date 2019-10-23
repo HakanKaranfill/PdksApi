@@ -12,6 +12,17 @@ const groupRoute = [
 } 
 ,
 {
+    method: 'GET',
+    url: '/api/group/:kimlik',
+    handler: groupController.getGroupControl,
+    schema: {
+        description: 'Tatil / izin Listesini Getirir.',
+        tags: ['Group'],
+        summary: 'Tatil / izin Getirir.'
+    }
+} 
+,
+{
     method: 'PUT',
     url: '/api/group',
     handler: groupController.putGroup,

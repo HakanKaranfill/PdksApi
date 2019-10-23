@@ -80,6 +80,11 @@ montlyScheduleRouter.forEach((route,index) => {
 fastify.route(route)
 })
 
+
+const titleRouter = require('./routers/titleRouter');
+titleRouter.forEach((route,index) => {
+fastify.route(route)
+})
 // ? Sql Connection Open (tek baglanti acmak ne kadar dogru)
 // const Conf = require("./config/mssqlConf")
 // const sql = require('mssql')

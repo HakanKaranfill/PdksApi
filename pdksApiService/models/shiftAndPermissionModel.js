@@ -1,7 +1,7 @@
 class shiftAndPermissionModel {
     constructor() {
-        this.kimlik = Number
-        ,this.ADI = String
+        this.kimlik 
+        ,this.ADI 
     }
 }
 exports.shiftAndPermissionModel = shiftAndPermissionModel
