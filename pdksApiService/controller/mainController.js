@@ -311,7 +311,7 @@ console.log(model)
         }
         else{
             
-            Cmd =  "SELECT * FROM [FUNC_PER_ONAY]  ('" + model.startDate +"','"+model.endDate+"',NULL) WHERE PERHAR_ID IS NOT NULL ORDER BY PERSONEL_ADI,TARIH "
+            Cmd =  "SELECT * FROM [FUNC_PER_ONAY]  ('" + model.startDate +"','"+model.endDate+"',NULL) ORDER BY PERSONEL_ADI,TARIH "
         
         }  
 
