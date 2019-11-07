@@ -1,15 +1,38 @@
 const shiftController = require('../controller/shiftController');
 const shiftRoute = [
-    {
-    method: 'GET',
+//     {
+//     method: 'GET',
+//     url: '/api/shift',
+//     handler: shiftController.getShiftData,
+//     schema: {
+//         description: 'Vardiya Listesini Getirir.',
+//         tags: ['Shift'],
+//         summary: 'Vardiya Listesini Getirir.'
+//     }
+// } 
+// ,
+{
+    method: 'POST',
     url: '/api/shift',
     handler: shiftController.getShiftData,
+    //  workPlanForGroupController.putWorkPlanForGroup,
     schema: {
         description: 'Vardiya Listesini Getirir.',
-        tags: ['Shift'],
-        summary: 'Vardiya Listesini Getirir.'
+        tags: ['shift'],
+        summary: 'Vardiya Listesini Getirir.',
+        body: {
+            type: 'object',
+            properties: {
+                companyCode: {
+                    type: 'number'
+                },
+                licanceId: {
+                    type: 'number'
+                }
+            }
+        }
     }
-} 
+}
 ,
 {
     method: 'PUT',

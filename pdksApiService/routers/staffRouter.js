@@ -2,16 +2,39 @@
 const staffController = require('../controller/staffController');
 
 const staffRoute = [
+   
     {
-    method: 'GET',
-    url: '/api/staff',
-    handler: staffController.getStaffList,
-    schema: {
-        description: 'Personel Listesini Getirir.',
-        tags: ['Staff'],
-        summary: 'Personel Listesini Getirir.'
+        method: 'POST',
+        url: '/api/staff',
+        handler: staffController.getStaffList,
+        //  workPlanForGroupController.putWorkPlanForGroup,
+        schema: {
+            description: 'Personel Listesini Getirir.',
+            tags: ['Staff'],
+            summary: 'Personel Listesini Getirir.',
+            body: {
+                type: 'object',
+                properties: {
+                    companyCode: {
+                        type: 'number'
+                    },
+                    licanceId: {
+                        type: 'number'
+                    }
+                }
+            }
+        }
     }
-} 
+//     {
+//     method: 'GET',
+//     url: '/api/staff',
+//     handler: staffController.getStaffList,
+//     schema: {
+//         description: 'Personel Listesini Getirir.',
+//         tags: ['Staff'],
+//         summary: 'Personel Listesini Getirir.'
+//     }
+// } 
 ,
 {
     method: 'PUT',

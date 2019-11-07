@@ -2,25 +2,49 @@
 const permissionController = require('../controller/permissionController');
 
 const permissionRoute = [
-    {
-    method: 'GET',
+//     {
+//     method: 'GET',
+//     url: '/api/permission',
+//     handler: permissionController.getPermissionData,
+//     schema: {
+//         description: 'Tatil / izin Listesini Getirir.',
+//         tags: ['Permission'],
+//         summary: 'Tatil / izin Getirir.'
+//     }
+// } 
+
+    
+{
+    method: 'POST',
     url: '/api/permission',
     handler: permissionController.getPermissionData,
+    //  workPlanForGroupController.putWorkPlanForGroup,
     schema: {
-        description: 'Tatil / izin Listesini Getirir.',
-        tags: ['Permission'],
-        summary: 'Tatil / izin Getirir.'
+        description: 'Ünvan Listesini Getirir.',
+        tags: ['permission'],
+        summary: 'Ünvan Listesini Getirir.',
+        body: {
+            type: 'object',
+            properties: {
+                companyCode: {
+                    type: 'number'
+                },
+                licanceId: {
+                    type: 'number'
+                }
+            }
+        }
     }
-} 
+}
 ,
 {
     method: 'GET',
     url: '/api/permission/:kimlik',
     handler: permissionController.getPermissionControl,
     schema: {
-        description: 'Tatil / izin Listesini Getirir.',
+        description: 'Tatil / izin Listesini Kontrol Eder.',
         tags: ['Permission'],
-        summary: 'Tatil / izin Getirir.'
+        summary: 'Tatil / izin Listesini Kontrol Eder.'
     }
 } 
 ,

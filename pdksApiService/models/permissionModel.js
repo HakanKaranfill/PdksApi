@@ -3,6 +3,7 @@ class permissionModel {
         this.kimlik = Number
         ,this.ADI = String
         ,this.UCRET = Boolean
+        ,this.SUBE_KODU = String
         
     }
 }

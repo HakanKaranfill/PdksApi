@@ -1,17 +1,17 @@
 const titleController = require('../controller/titleController');
 const titleRoute = [
-    {
-    method: 'GET',
-    url: '/api/title',
-    handler: titleController.getTitleList,
-    schema: {
-        description: 'Ünvan Listesini Getirir.',
-        tags: ['title'],
-        summary: 'Ünvan Listesini Getirir.'
-    }
-} 
+//     {
+//     method: 'GET',
+//     url: '/api/title',
+//     handler: titleController.getTitleList,
+//     schema: {
+//         description: 'Ünvan Listesini Getirir.',
+//         tags: ['title'],
+//         summary: 'Ünvan Listesini Getirir.'
+//     }
+// } 
 
-,
+// ,
 {
     method: 'PUT',
     url: '/api/title',
@@ -23,35 +23,30 @@ const titleRoute = [
         
     }
 }
+,    
+{
+    method: 'POST',
+    url: '/api/title',
+    handler: titleController.getTitleList,
+    //  workPlanForGroupController.putWorkPlanForGroup,
+    schema: {
+        description: 'Ünvan Listesini Getirir.',
+        tags: ['title'],
+        summary: 'Ünvan Listesini Getirir.',
+        body: {
+            type: 'object',
+            properties: {
+                companyCode: {
+                    type: 'number'
+                },
+                licanceId: {
+                    type: 'number'
+                }
+            }
+        }
+    }
+}
 ,
-// {
-//     method: 'POST',
-//     url: '/api/Report/dailyReportSummary',
-//     handler: mainReport.getMainReport,
-//     schema: {
-//         description: 'Retrieves Daily Operation Summary by Entered Date Range and Branch Code.',
-//         tags: ['DailyOperationReport'],
-//         summary: 'Daily Operation Report',
-//         body: {
-//             type: 'object',
-//             properties: {
-//                 startedDate: {
-//                     type: 'string'
-//                 },
-//                 endDate: {
-//                     type: 'string'
-//                 },
-//                 branchCode: {
-//                     type: 'string'
-//                 },
-//                 licanceNo: {
-//                     type: 'number'
-//                 }
-//             }
-//         }
-//     }
-// }
-// ,
 {
     method: 'DELETE',
     url: '/api/title',

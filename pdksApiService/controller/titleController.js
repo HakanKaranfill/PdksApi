@@ -3,8 +3,15 @@ const titleModel = require('../models/titleModel');
 
 exports.getTitleList = async(req,res) => {
     try {
-        let reqs = req
-        let titleData = await sqlMain.getTitleList(2402)        
+        // let reqs = req
+        // let titleData = await sqlMain.getTitleList(2402)        
+        // res.send(titleData)
+
+
+
+        let companyCode = req.body.companyCode
+        let licanceId = req.body.licanceId
+        let titleData = await  sqlMain.getTitleList(licanceId,companyCode)
         res.send(titleData)
     } catch (err) {
         return err
@@ -24,11 +31,10 @@ exports.getTitleList = async(req,res) => {
 // }
 exports.putTitle=async(req,res) =>{
     try {
-        console.log(req.body)
-        let titleModel = req.body.titleModel
-        let licanceNo = req.body.licanceNo
-
-        let titleData = await sqlMain.putTitle(licanceNo,titleModel)        
+               let titleModel = req.body.titleModel
+        let licanceId = req.body.licanceId
+        let companyCode = req.body.companyCode
+        let titleData = await sqlMain.putTitle(licanceId,titleModel,companyCode)        
         res.send(titleData)
     } catch (err) {
         return err
@@ -39,8 +45,8 @@ exports.deleteTitle=async(req,res) =>{
     try {
         console.log(req.body)
         let kimlik = req.body.kimlik
-        let licanceNo = req.body.licanceNo
-        let titleData = await sqlMain.deleteTitle(licanceNo,kimlik)        
+        let licanceId = req.body.licanceId
+        let titleData = await sqlMain.deleteTitle(licanceId,kimlik)        
         res.send(titleData)
     } catch (err) {
         return err

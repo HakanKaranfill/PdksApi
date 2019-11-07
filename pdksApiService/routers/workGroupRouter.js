@@ -1,15 +1,37 @@
 const groupController = require('../controller/groupController');
 const groupRoute = [
-    {
-    method: 'GET',
+//     {
+//     method: 'GET',
+//     url: '/api/group',
+//     handler: groupController.getGroupList,
+//     schema: {
+//         description: 'Vardiya Listesini Getirir.',
+//         tags: ['Group'],
+//         summary: 'Vardiya Listesini Getirir.'
+//     }
+// } 
+{
+    method: 'POST',
     url: '/api/group',
     handler: groupController.getGroupList,
+    //  workPlanForGroupController.putWorkPlanForGroup,
     schema: {
-        description: 'Vardiya Listesini Getirir.',
-        tags: ['Group'],
-        summary: 'Vardiya Listesini Getirir.'
+        description: 'Grup Listesini Getirir.',
+        tags: ['group'],
+        summary: 'Grup Listesini Getirir.',
+        body: {
+            type: 'object',
+            properties: {
+                companyCode: {
+                    type: 'number'
+                },
+                licanceId: {
+                    type: 'number'
+                }
+            }
+        }
     }
-} 
+}
 ,
 {
     method: 'GET',

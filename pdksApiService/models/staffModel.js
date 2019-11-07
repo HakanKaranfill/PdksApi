@@ -7,8 +7,8 @@ class staffModel {
         ,this.AKTIF = String
         ,this.ISE_GIRIS = Date
         ,this.ISTEN_AYRILIS = Date
-        ,this.UNVAN_ID = Number 
-        ,this.GRUP_ID = Number
+        ,this.UNVAN_ID = String 
+        ,this.GRUP_ID = String
     }
 }
 

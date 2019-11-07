@@ -15,9 +15,9 @@ exports.putMontlySchedule =async(req,res) =>{
     try {
         console.log(req.body)
         let montlyModel = req.body
-        let licanceNo = req.body.licanceNo
-
-        let groupData = await sqlMain.putMontlySchedule(licanceNo,montlyModel)        
+        let companyCode = req.body.companyCode
+        let licanceId = req.body.licanceId
+        let groupData = await sqlMain.putMontlySchedule(licanceId,montlyModel,companyCode)        
         res.send(groupData)
     } catch (err) {
         return err
@@ -27,8 +27,8 @@ exports.putMontlySchedule =async(req,res) =>{
 //     try {
 //         console.log(req.body)
 //         let groupModel = req.body.groupModel
-//         let licanceNo = req.body.licanceNo
-//         let groupData = await sqlMain.deleteGroup(licanceNo,groupModel)        
+//         let licanceId = req.body.licanceId
+//         let groupData = await sqlMain.deleteGroup(licanceId,groupModel)        
 //         res.send(groupData)
 //     } catch (err) {
 //         return err
