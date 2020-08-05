@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@angular/compiler-cli": "^8.2.6",
-    "fastify": "^2.7.1",
+    "fastify": "^2.15.1",
     "fastify-cors": "^2.1.3",
     "fastify-helmet": "^3.0.1",
     "fastify-swagger": "^2.4.0",
